@@ -30,7 +30,6 @@ class Downloader {
 
     public function download()
     {
-        print_r($this->options);
         $options = array_merge_numeric($this->options, array(
             CURLOPT_URL     => $this->url
         ));

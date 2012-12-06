@@ -1,5 +1,12 @@
 <?php
 
+function array_merge_numeric($array1, $array2) {
+    foreach ($array2 as $key => $value) {
+        $array1[$key] = $value;
+    }
+    return $array1;
+}
+
 function arrayMaxValueOfKey($array, $key)
 {
     $max = NULL;

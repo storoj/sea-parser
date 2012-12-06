@@ -1,7 +1,7 @@
 <?php
 
 if (defined('USE_DEBUG') && USE_DEBUG) {
-    include('debugger/debugger.php');
+    include(PATH_ROOT.'debugger/debugger.php');
     Debugger::instance()->startDebug();
 }
 

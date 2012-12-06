@@ -47,22 +47,5 @@ include_once(PATH_ROOT . 'helper.php');
 
 // connecting db
 if (!DB::getInstance()->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PREFIX)) {
-    die ('DB connection error!');
+    die ("DB connection error!\n");
 }
-
-// initiate repository list
-// comment this when repositories are set and stable
-// include('repositories.php');
-
-/*
- * hack for plupload flash runtime
- * setting session id from multipart params to get user object
- */
-if (isset($_POST['TC_SESSID'])) {
-    session_id($_POST['TC_SESSID']);
-    // dirty hack
-    unset($_POST['TC_SESSID']);
-    $_POST['data'] = $_POST;
-}
-
-session_start();

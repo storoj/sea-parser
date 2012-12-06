@@ -9,3 +9,6 @@
 include(dirname(__FILE__).'/init.php');
 
 $infraNewsParser = new CParserInfranews();
+for ($page=1; $page<685; $page++) {
+    $infraNewsParser->processPage($page);
+}

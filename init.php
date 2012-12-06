@@ -1,10 +1,5 @@
 <?php
 
-if (defined('USE_DEBUG') && USE_DEBUG) {
-    include(PATH_ROOT.'debugger/debugger.php');
-    Debugger::instance()->startDebug();
-}
-
 // loading class files automatically
 function __autoload($class_name) {
     $includeFile = PATH_CLASSES . $class_name.'.php';
@@ -40,6 +35,13 @@ function __autoload($class_name) {
         #throw new Exception("no file to include", 1);
         #echo 'no file <strong>'.$includeFile.'</strong>';
     }
+}
+
+include_once(dirname(__FILE__).'/config.php');
+
+if (defined('USE_DEBUG') && USE_DEBUG) {
+    include(PATH_ROOT.'debugger/debugger.php');
+    Debugger::instance()->startDebug();
 }
 
 // common functions (global)

@@ -8,32 +8,47 @@
 
 class CParserInfranews extends CAParser {
 
-    function sourceID()
+    public function sourceID()
     {
         return 1;
     }
 
-    function extractDataFromHTML($html)
+    private function extractTime($str)
+    {
+        $pattern = '#[0-9:.]+#';
+        preg_match_all($pattern, $str, $matches);
+
+        $timeStr = $matches[0][1].' '.$matches[0][0];
+        $time = DateTime::createFromFormat('H:i d.m.y', $timeStr);
+        if ($time) {
+            return $time->getTimestamp();
+        }
+        return false;
+    }
+
+    public function extractDataFromHTML($html)
     {
         $document = phpQuery::newDocumentHTML($html);
         $articleElement = $document->find('#main-content');
 
         $title = $articleElement->find('.title h1')->text();
+
         $time = $articleElement->find('.details')->text();
+        $time = $this->extractTime(trim($time));
 
         $text = $articleElement->find('.single-review-content')->text();
 
+        $text = substr($text, 0, 50);
         $result = array(
             'title'	=> trim($title),
-            'time'	=> trim($time),
+            'time'	=> $time,
             'text'	=> trim($text)
         );
 
         return $result;
-
     }
 
-    function extractURLListFromHTML($html)
+    public function extractURLListFromHTML($html)
     {
         $document = phpQuery::newDocumentHTML($html);
         $postItems = $document->find('.post-item .description .index-title');
@@ -46,5 +61,17 @@ class CParserInfranews extends CAParser {
         }
 
         return $result;
+    }
+
+    public function webSiteBaseURL()
+    {
+        return 'http://infranews.ru';
+    }
+
+    public function getNewsListPageContents($page)
+    {
+        $url = $this->webSiteBaseURL().'/page/'.$page.'/';
+
+        return Downloader::defaultDownloaderForURL($url)->download();
     }
 }

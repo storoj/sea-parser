@@ -7,7 +7,11 @@ class DB {
 	private $user			= '';
 	private $password		= '';
 	private $dbName			= '';
-	private $cache 			= false;
+    /**
+     * @var bool|Memcached
+     */
+    private $cache 			= false;
+    public $connected       = false;
 
     /**
      * @static
@@ -32,27 +36,31 @@ class DB {
 		return $this->cache->addServer('localhost', 11211);
 	}
 	
-	public function getCached($key){
+	public function getCached($key) {
 		if($this->tryCache()){
 			return $this->cache->get($key);
 		}
 		return false;
 	}
 	
-	public function setCached($key, $value, $timeout = 3){
+	public function setCached($key, $value, $timeout = 3) {
 		if($this->tryCache()){
 			return $this->cache->set($key, $value, $timeout);
 		}
 		return false;
 	}
 
-	public function connect($host, $user, $password, $db, $prefix) {
-		$this->host = $host;
-		$this->user = $user;
-		$this->password = $password;
-		$this->dbName = $db;
-		$this->tablePrefix = $prefix;
+    public function init($host, $user, $password, $db, $prefix) {
+        $this->host = $host;
+        $this->user = $user;
+        $this->password = $password;
+        $this->dbName = $db;
+        $this->tablePrefix = $prefix;
 
+        $this->connected = false;
+    }
+
+	public function connect() {
 		if (mysql_connect($this->host, $this->user, $this->password) == false) {
 			return false;
 		}
@@ -60,19 +68,24 @@ class DB {
 		if (!mysql_select_db($this->dbName)) {
 			return false;
 		}
+        $this->connected = true;
 
-        mysql_query("set names utf8");
-
-		$this->tablePrefix = $prefix;
+        $this->query("set names utf8");
 
 		return true;
 	}
 
-	public function getFullTableName($tableName){
+	public function getFullTableName($tableName) {
 		return $this->tablePrefix . $tableName;
 	}
 
-	public function query($sql){
+	public function query($sql) {
+        if (!$this->connected && !$this->connect()) {
+            echo "unable to connect to db\n";
+            die();
+        }
+
+        $start = false;
 		if (USE_DEBUG) {
 			$start = Debugger::instance()->getMicroTime();
 		}

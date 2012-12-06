@@ -8,6 +8,7 @@ function __autoload($class_name) {
         $pathParts = explode('.', $class);
 
         $dir = $pathParts[0];
+        $dir = preg_replace('#^ca?#', '', $dir);
         $includeFile = PATH_CLASSES.$dir.'/'.$class_name.'.php';
         if (!(is_dir(PATH_CLASSES.$dir) && file_exists($includeFile))) {
             $class = array_reverse($pathParts);
@@ -48,6 +49,4 @@ if (defined('USE_DEBUG') && USE_DEBUG) {
 include_once(PATH_ROOT . 'helper.php');
 
 // connecting db
-if (!DB::getInstance()->connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PREFIX)) {
-    die ("DB connection error!\n");
-}
+DB::getInstance()->init(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PREFIX);

@@ -38,11 +38,14 @@ class Downloader {
     {
         $cacheDir = PATH_ROOT.'cache/';
 
-        $urlParts = parse_url($url);
-        $host = $urlParts['host'];
-        $path = preg_replace('#/$#', '', $urlParts['path']);
+        $host = parse_url($url, PHP_URL_HOST);
+        $fileName = md5($url);
+        $fileName = substr($fileName, 0, 4).'/'
+            .substr($fileName, 4, 4).'/'
+            .substr($fileName, 8, 4).'/'
+            .$fileName.'.html';
 
-        return $cacheDir.$host.$path.'.html';
+        return $cacheDir.$host.'/'.$fileName;
     }
 
     public function download()

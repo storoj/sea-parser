@@ -42,7 +42,14 @@ abstract class CAParser implements IParser
             echo $articleURL."\n";
             $data = $this->extractDataFromURL($articleURL);
 
-            print_r($data);
+            $data['source_id'] = $this->sourceID();
+            $data['source_url'] = $articleURL;
+
+            DBQuery::withTable('parser')
+                ->setFields($data)
+                ->Insert();
+
+//            print_r($data);
         }
     }
 }

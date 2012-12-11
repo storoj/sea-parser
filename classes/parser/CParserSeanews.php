@@ -49,12 +49,12 @@ class CParserSeanews extends CAParser {
         $articleElement->find('h3')->remove();
         $articleElement->find('.timelabel')->remove();
 
-        $text = substr($articleElement->text(), 0, 50);
+        $text = $articleElement->text();
 
         $result = array(
-            'title'	=> trim($title),
-            'time'	=> trim($time),
-            'text'	=> trim($text)
+            'title'	    => trim($title),
+            'date'	    => trim($time),
+            'content'	=> trim($text)
         );
 
         return $result;

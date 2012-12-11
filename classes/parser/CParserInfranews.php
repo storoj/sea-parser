@@ -38,11 +38,10 @@ class CParserInfranews extends CAParser {
 
         $text = $articleElement->find('.single-review-content')->text();
 
-        $text = substr($text, 0, 50);
         $result = array(
-            'title'	=> trim($title),
-            'time'	=> $time,
-            'text'	=> trim($text)
+            'title'	    => trim($title),
+            'date'	    => $time,
+            'content'	=> trim($text)
         );
 
         return $result;

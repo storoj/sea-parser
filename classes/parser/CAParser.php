@@ -45,7 +45,7 @@ abstract class CAParser implements IParser
             $data['source_id'] = $this->sourceID();
             $data['source_url'] = $articleURL;
 
-            DBQuery::withTable('parser')
+            DBQuery::withTable('news')
                 ->setFields($data)
                 ->Insert();
 

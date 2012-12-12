@@ -47,6 +47,22 @@ class CParserInfranews extends CAParser {
         return $result;
     }
 
+    public function extractDataFromURL($url)
+    {
+        $result = parent::extractDataFromURL($url);
+
+        $pathComponents = explode('/', parse_url($url, PHP_URL_PATH));
+        $lastComponent = end($pathComponents);
+        if (empty($lastComponent)) {
+            array_pop($pathComponents);
+            $lastComponent = end($pathComponents);
+        }
+        preg_match('#^\d+#', $lastComponent, $match);
+        $result['internal_id'] = $match[0];
+
+        return $result;
+    }
+
     public function extractURLListFromHTML($html)
     {
         $document = phpQuery::newDocumentHTML($html);

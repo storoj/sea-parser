@@ -15,11 +15,8 @@ class CParserMorvesti extends CAParser {
 
     private function extractTime($str)
     {
-        $pattern = '#[0-9:.]+#';
-        preg_match_all($pattern, $str, $matches);
+        $time = DateTime::createFromFormat('d.m.Y H:i', $str);
 
-        $timeStr = $matches[0][1].' '.$matches[0][0];
-        $time = DateTime::createFromFormat('H:i d.m.y', $timeStr);
         if ($time) {
             return $time->getTimestamp();
         }
@@ -57,13 +54,7 @@ class CParserMorvesti extends CAParser {
     {
         $result = parent::extractDataFromURL($url);
 
-        $pathComponents = explode('/', parse_url($url, PHP_URL_PATH));
-        $lastComponent = end($pathComponents);
-        if (empty($lastComponent)) {
-            array_pop($pathComponents);
-            $lastComponent = end($pathComponents);
-        }
-        preg_match('#^\d+#', $lastComponent, $match);
+        preg_match('#\d+$#', $url, $match);
         $result['internal_id'] = $match[0];
 
         return $result;
@@ -72,13 +63,13 @@ class CParserMorvesti extends CAParser {
     public function extractURLListFromHTML($html)
     {
         $document = phpQuery::newDocumentHTML($html);
-        $postItems = $document->find('.post-item .description .index-title');
+        $postItems = $document->find('.newsContainer h4 a');
 
         $result = array();
         foreach ($postItems as $postItemLink) {
             $postItemLink = pq($postItemLink);
 
-            $result[] = trim($postItemLink->attr('href'));
+            $result[] = $this->webSiteBaseURL().$postItemLink->attr('href');
         }
 
         return $result;
@@ -91,7 +82,7 @@ class CParserMorvesti extends CAParser {
 
     public function getNewsListPageContents($page)
     {
-        $url = $this->webSiteBaseURL().'/page/'.$page.'/';
+        $url = $this->webSiteBaseURL().'/news/index.php?PAGEN_1='.$page;
 
         return Downloader::defaultDownloaderForURL($url)->download();
     }

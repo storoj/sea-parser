@@ -5,6 +5,7 @@
  * Date: 07.12.12
  * Time: 3:31
  */
+// TODO internal id parsing
 
 class CParserSeanews extends CAParser {
 
@@ -35,6 +36,16 @@ class CParserSeanews extends CAParser {
             return $time->getTimestamp();
         }
         return false;
+    }
+
+    public function extractDataFromURL($url)
+    {
+        $result = parent::extractDataFromURL($url);
+
+        preg_match('#\d+$#', $url, $match);
+        $result['internal_id'] = $match[0];
+
+        return $result;
     }
 
     public function extractDataFromHTML($html)

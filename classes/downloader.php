@@ -45,7 +45,10 @@ class Downloader {
             .substr($fileName, 8, 4).'/'
             .$fileName.'.html';
 
-        return $cacheDir.$host.'/'.$fileName;
+
+        $cacheFileName = $cacheDir.$host.'/'.$fileName;
+
+        return $cacheFileName;
     }
 
     public function download()

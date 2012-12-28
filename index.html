@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/datepicker.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Парсер новостей</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Статистика</a></li>
+                    <li><a href="#about">Фразы</a></li>
+                    <li><a href="#contact">Автор</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <form>
+        <fieldset>
+            <legend>Статистика по фразам</legend>
+
+            <div class="row">
+                <div class="span4">
+                    <p class="lead">Фразы, отображаемые на графике</p>
+                    <label class="checkbox"><input type="checkbox"> morvesti.ru</label>
+                    <label class="checkbox"><input type="checkbox"> seanews.ru</label>
+                    <label class="checkbox"><input type="checkbox"> portnews.ru</label>
+
+                    <p class="lead">Тип поиска</p>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                        морфологический поиск
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        точное совпадение
+                    </label>
+                </div>
+                <div class="span3" style="height:300px;">
+                    <label>Начальная дата</label>
+                    <input type="text" id="calendar1" class="datepicker" data-date-autohide="0" data-date-initial-show="1">
+                </div>
+                <div class="span3" style="height:300px;">
+                    <label>Конечная дата</label>
+                    <input type="text" id="calendar2" class="datepicker" data-date-autohide="0" data-date-initial-show="1">
+                </div>
+            </div>
+
+            <div class="form-actions" style="text-align: center">
+                <button type="submit" class="btn btn-large btn-primary">Построить график</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <div id="chart1" style="height: 500px"></div>
+</div> <!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="../assets/js/jquery.js"></script>-->
+<!--<script src="../assets/js/bootstrap-transition.js"></script>-->
+<!--<script src="../assets/js/bootstrap-alert.js"></script>-->
+<!--<script src="../assets/js/bootstrap-modal.js"></script>-->
+<!--<script src="../assets/js/bootstrap-dropdown.js"></script>-->
+<!--<script src="../assets/js/bootstrap-scrollspy.js"></script>-->
+<!--<script src="../assets/js/bootstrap-tab.js"></script>-->
+<!--<script src="../assets/js/bootstrap-tooltip.js"></script>-->
+<!--<script src="../assets/js/bootstrap-popover.js"></script>-->
+<!--<script src="../assets/js/bootstrap-button.js"></script>-->
+<!--<script src="../assets/js/bootstrap-collapse.js"></script>-->
+<!--<script src="../assets/js/bootstrap-carousel.js"></script>-->
+<!--<script src="../assets/js/bootstrap-typeahead.js"></script>-->
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/bootstrap/js/bootstrap-datepicker.js"></script>
+<script src="/js/core2.js"></script>
+<script src="/js/main.js"></script>
+
+
+<script src="/js/jqplot/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" href="/js/jqplot/jquery.jqplot.min.css">
+<script type="text/javascript" src="/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="/js/jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        var line1=[['23-May-08', 578.55], ['20-Jun-08', 566.5], ['25-Jul-08', 480.88], ['22-Aug-08', 509.84],
+            ['26-Sep-08', 454.13], ['24-Oct-08', 379.75], ['21-Nov-08', 303], ['26-Dec-08', 308.56],
+            ['23-Jan-09', 299.14], ['20-Feb-09', 346.51], ['20-Mar-09', 325.99], ['24-Apr-09', 386.15]];
+//        var plot1 = $.jqplot('chart1', [line1], {
+//            title:'Data Point Highlighting',
+//            axes:{
+//                xaxis:{
+//                    renderer:$.jqplot.DateAxisRenderer,
+//                    tickOptions:{
+//                        formatString:'%b&nbsp;%#d'
+//                    }
+//                },
+//                yaxis:{
+//                    tickOptions:{
+//                        formatString:'$%.2f'
+//                    }
+//                }
+//            },
+//            highlighter: {
+//                show: true,
+//                sizeAdjust: 7.5
+//            },
+//            cursor: {
+//                show: false
+//            }
+//        });
+    });
+
+    var query = new AjaxQuery({
+        url:"/index.php",
+        request_type:"GET",
+        callbacks:{
+            success:function(status, queryResults){
+                var lines = [];
+                var lineLabels = [];
+                for(var i=0; i<queryResults.length; i++) {
+                    var queryResult = queryResults[i];
+                    var documentsData = queryResult.documents;
+                    var linePoints = [];
+                    for (var j=0; j<documentsData.length; j++) {
+                        var date = new Date(documentsData[j].date * 1000);
+                        linePoints.push([date, j+1]);
+                    }
+                    lines.push(linePoints);
+                    lineLabels.push(queryResult.query + ' <b>('+queryResult.total_found+')</b>');
+                }
+
+                console.log('lines:');
+                console.log(lines);
+
+                var plot1 = $.jqplot('chart1', lines, {
+                    title:'Статистика запросов',
+                    axes:{
+                        xaxis:{
+                            renderer:$.jqplot.DateAxisRenderer,
+                            tickOptions:{
+                                formatString:'%b&nbsp;%#d'
+                            }
+                        },
+                        yaxis:{
+                            tickOptions:{
+                                formatString:'%d'
+                            }
+                        }
+                    },
+                    highlighter: {
+                        show: true,
+                        sizeAdjust: 7.5
+                    },
+                    cursor: {
+                        show: false
+                    },
+                    legend: {
+                        show: true,
+                        labels: lineLabels,
+                        location: 'nw'
+                    }
+                });
+            }
+        }
+    });
+    query.execute()
+</script>
+
+
+
+</body>
+</html>

@@ -6,4 +6,4 @@
  * To change this template use File | Settings | File Templates.
  */
 
-$('.datepicker').datepicker();
+$('.datepicker').datepicker({language: 'ru'});

@@ -35,10 +35,10 @@
             </a>
             <a class="brand" href="#">Парсер новостей</a>
             <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="active"><a href="#">Статистика</a></li>
-                    <li><a href="#about">Фразы</a></li>
-                    <li><a href="#contact">Автор</a></li>
+                <ul class="nav" id="navigationTabs">
+                    <li class="active"><a href="#stats" data-toggle="tab">Статистика</a></li>
+                    <li><a href="#settings" data-toggle="tab">Фразы</a></li>
+                    <li><a href="#contact" data-toggle="tab">Автор</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -47,44 +47,59 @@
 
 <div class="container">
 
-    <form>
-        <fieldset>
-            <legend>Статистика по фразам</legend>
+    <div class="tab-content">
+        <div class="tab-pane active" id="stats">
+            <form>
+                <fieldset>
+                    <legend>Статистика по фразам</legend>
 
-            <div class="row">
-                <div class="span4">
-                    <p class="lead">Фразы, отображаемые на графике</p>
-                    <label class="checkbox"><input type="checkbox"> morvesti.ru</label>
-                    <label class="checkbox"><input type="checkbox"> seanews.ru</label>
-                    <label class="checkbox"><input type="checkbox"> portnews.ru</label>
+                    <div class="row">
+                        <div class="span4">
+                            <p class="lead">Фразы, отображаемые на графике</p>
+                            <label class="checkbox"><input type="checkbox"> morvesti.ru</label>
+                            <label class="checkbox"><input type="checkbox"> seanews.ru</label>
+                            <label class="checkbox"><input type="checkbox"> portnews.ru</label>
 
-                    <p class="lead">Тип поиска</p>
-                    <label class="radio">
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                        морфологический поиск
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                        точное совпадение
-                    </label>
-                </div>
-                <div class="span3" style="height:300px;">
-                    <label>Начальная дата</label>
-                    <input type="text" id="calendar1" class="datepicker" data-date-autohide="0" data-date-initial-show="1">
-                </div>
-                <div class="span3" style="height:300px;">
-                    <label>Конечная дата</label>
-                    <input type="text" id="calendar2" class="datepicker" data-date-autohide="0" data-date-initial-show="1">
-                </div>
-            </div>
+                            <p class="lead">Тип поиска</p>
+                            <label class="radio">
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                морфологический поиск
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                точное совпадение
+                            </label>
+                        </div>
+                        <div class="span3" style="height:300px;">
+                            <label>Начальная дата</label>
+                            <input type="text" id="calendar1" class="datepicker1" data-date-autohide="0" data-date-initial-show="1">
+                            <div class="datepicker" data-target="calendar1"></div>
+                        </div>
+                        <div class="span3" style="height:300px;">
+                            <label>Конечная дата</label>
+                            <input type="text" id="calendar2" class="datepicker1" data-date-autohide="0" data-date-initial-show="1">
+                            <div class="datepicker" data-target="calendar2"></div>
+                        </div>
+                    </div>
 
-            <div class="form-actions" style="text-align: center">
-                <button type="submit" class="btn btn-large btn-primary">Построить график</button>
-            </div>
-        </fieldset>
-    </form>
+                    <div class="form-actions" style="text-align: center">
+                        <button type="submit" class="btn btn-large btn-primary">Построить график</button>
+                    </div>
+                </fieldset>
+            </form>
 
-    <div id="chart1" style="height: 500px"></div>
+            <div id="chart1" style="height: 500px"></div>
+
+        </div>
+        <div class="tab-pane" id="settings">
+            settings here
+        </div>
+        <div class="tab-pane" id="contact">
+            <p class="lead">skype: dark.storoj</p>
+            <p class="lead">mail: dark.storoj@gmail.com</p>
+        </div>
+    </div>
+
 </div> <!-- /container -->
 
 <!-- Le javascript
@@ -106,6 +121,7 @@
 <script src="/js/jquery-1.8.3.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="/bootstrap/js/bootstrap-datepicker.js"></script>
+<script src="/bootstrap/js/bootstrap-datepicker.ru.js"></script>
 <script src="/js/core2.js"></script>
 <script src="/js/main.js"></script>
 
@@ -147,7 +163,7 @@
     });
 
     var query = new AjaxQuery({
-        url:"/index.php",
+        url:"/ajax.php",
         request_type:"GET",
         callbacks:{
             success:function(status, queryResults){

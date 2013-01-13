@@ -53,6 +53,9 @@ class CParserMorvesti extends CAParser {
     public function extractDataFromURL($url)
     {
         $result = parent::extractDataFromURL($url);
+        if (!$result) {
+            return false;
+        }
 
         preg_match('#\d+$#', $url, $match);
         $result['internal_id'] = $match[0];

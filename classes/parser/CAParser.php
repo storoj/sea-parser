@@ -43,7 +43,11 @@ abstract class CAParser implements IParser
     function extractDataFromURL($url)
     {
         $html = Downloader::defaultDownloaderForURL($url)->download();
-        return $this->extractDataFromHTML($html);
+        $data = $this->extractDataFromHTML($html);
+        if (!isset($data['content']) || empty($data['content'])) {
+            return false;
+        }
+        return $data;
     }
 
     function processPage($page)
@@ -53,9 +57,15 @@ abstract class CAParser implements IParser
 
         $content = $this->getNewsListPageContents($page);
         $urlList = $this->extractURLListFromHTML($content);
-        foreach ($urlList as $articleURL) {
-            echo $articleURL."\n";
+        $urlCount = count($urlList);
+        foreach ($urlList as $index => $articleURL) {
+//            echo $articleURL."\n";
+            echo "[".$index."/".$urlCount."] ".$articleURL."\n";
             $data = $this->extractDataFromURL($articleURL);
+            if (!$data) {
+                echo "error\n";
+                continue;
+            }
 
             $data['source_id'] = $this->sourceID();
             $data['source_url'] = $articleURL;
@@ -68,6 +78,7 @@ abstract class CAParser implements IParser
                 ))
                 ->fetch();
             if (!!$existance) {
+                echo " exists\n";
                 continue;
             }
 //            if ($data['date'] >= $earliestDate && $data['date'] <= $latestDate) {

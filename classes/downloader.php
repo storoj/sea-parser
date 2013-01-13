@@ -53,10 +53,12 @@ class Downloader {
 
     public function download()
     {
+        echo "downloading...";
         $returnTransfer = isset($this->options[CURLOPT_RETURNTRANSFER]) && $this->options[CURLOPT_RETURNTRANSFER];
         if ($returnTransfer) {
             $cacheFileName = $this->getCacheFileNameForURL($this->url);
             if (file_exists($cacheFileName)) {
+                echo " found in cache\n";
                 return file_get_contents($cacheFileName);
             }
         }
@@ -68,6 +70,8 @@ class Downloader {
         $ch = curl_init();
         curl_setopt_array($ch, $options);
         $result = curl_exec($ch);
+
+        echo " done\n";
 
         if ($returnTransfer) {
             @mkdir(dirname($cacheFileName), 0777, true);

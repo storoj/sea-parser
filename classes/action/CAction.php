@@ -16,12 +16,17 @@ abstract class CAction
     public function __construct()
     {
         $this->postData = $_POST;
+        $this->setStatus('ok');
     }
 
     public function getQueryResult($query)
     {
         $this->executeQuery($query);
-        return $this->result;
+        return array(
+            'status'    => $this->status,
+            'message'   => $this->message,
+            'result'    => $this->result
+        );
     }
 
     private function executeQuery($query)

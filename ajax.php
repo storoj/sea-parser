@@ -18,14 +18,20 @@ $cl->SetLimits(0, 120, 120, 0);
 //$cl->SetFilterRange('date', 1346520000 - 10, 1346520000 + 10);
 //$result = $cl->Query("санкт-петербург"); // поисковый запрос
 
-$queries = array(
-    'свободный порт',
-    'Нева Металл',
-    'министерство транспорта'
-);
+$registry = CRegistryJSON::getInstance();
+$phraseGroups = $registry->get('phrases');
+
+$queries = array();
+foreach ($phraseGroups as $phraseGroup) {
+    $queryPhrases = array();
+    foreach ($phraseGroup['phrases'] as $phrase) {
+        $queryPhrases[] = '"'.$phrase.'"';
+    }
+    $queries[] = implode(' | ', $queryPhrases);
+}
 
 foreach($queries as $query) {
-    $cl->AddQuery('"'.$query.'"');
+    $cl->AddQuery($query);
 }
 
 $dbResult = $cl->RunQueries();
@@ -51,7 +57,7 @@ if ( $dbResult === false ) {
                 ->fetchAll();
 
             $results[] = array(
-                'query'         => $queries[$index],
+                'query'         => $phraseGroups[$index]['name'],
                 'documents'     => $dbDocuments,
                 'total_found'   => $res['total_found']
             );

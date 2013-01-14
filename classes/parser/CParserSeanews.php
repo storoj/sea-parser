@@ -7,7 +7,7 @@
  */
 // TODO internal id parsing
 
-class CParserSeanews extends CAParser {
+class CParserSeanews extends CParser {
 
     public function sourceID()
     {

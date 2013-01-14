@@ -6,7 +6,7 @@
  * Time: 1:46
  */
 
-class CParserInfranews extends CAParser {
+class CParserInfranews extends CParser {
 
     public function sourceID()
     {

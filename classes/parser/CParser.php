@@ -13,7 +13,7 @@ interface IParser
     function getNewsListPageContents($page);
 }
 
-abstract class CAParser implements IParser
+abstract class CParser implements IParser
 {
 
     function latestDateFromDB()

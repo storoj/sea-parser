@@ -8,7 +8,7 @@ function __autoload($class_name) {
         $pathParts = explode('.', $class);
 
         $dir = $pathParts[0];
-        $dir = preg_replace('#^ca?#', '', $dir);
+        $dir = preg_replace('#^c#', '', $dir);
         $includeFile = PATH_CLASSES.$dir.'/'.$class_name.'.php';
         if (!(is_dir(PATH_CLASSES.$dir) && file_exists($includeFile))) {
             $class = array_reverse($pathParts);

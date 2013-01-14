@@ -10,7 +10,7 @@ class CParserFactory {
 
     /**
      * @param $className
-     * @return CAParser
+     * @return CParser
      */
     public static function makeFromClassName($className)
     {

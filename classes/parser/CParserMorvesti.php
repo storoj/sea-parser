@@ -6,7 +6,7 @@
  * Time: 1:46
  */
 
-class CParserMorvesti extends CAParser {
+class CParserMorvesti extends CParser {
 
     public function sourceID()
     {

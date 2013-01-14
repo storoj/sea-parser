@@ -21,7 +21,6 @@ class CRegistryJSON extends CRegistry
 
     protected function LoadData()
     {
-        var_dump($this->settingsFileName);
         if (file_exists($this->settingsFileName)) {
             $json = json_decode(file_get_contents($this->settingsFileName), true);
             if (!is_array($json)) {
@@ -38,7 +37,6 @@ class CRegistryJSON extends CRegistry
             $arData = array();
         }
         $json = json_encode($arData);
-        var_dump($json);
         return file_put_contents($this->settingsFileName, $json);
     }
 }

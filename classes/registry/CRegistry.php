@@ -67,6 +67,20 @@ abstract class CRegistry
         return $this;
     }
 
+    public function remove($var)
+    {
+        if (isset($this->data[$var])) {
+            unset($this->data[$var]);
+        }
+        return $this;
+    }
+
+    public function invalidate()
+    {
+        $this->data = array();
+        return $this;
+    }
+
     public function getKeyValue()
     {
         $data = array();

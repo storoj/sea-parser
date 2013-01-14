@@ -144,7 +144,7 @@ function AjaxQuery(params, data, properties){
     $.extend(this, {
         blocked: false,
         settings: $.extend(defaults, params),
-        data: {},
+        data: data,
         saved_state: {},
         properties: {},
 

@@ -55,6 +55,8 @@ Header append Vary User-Agent env=!dont-vary
 </IfModule>
 </IfModule>
 
+Options -MultiViews
+
 RewriteEngine On
 Options +FollowSymlinks
 RewriteBase /

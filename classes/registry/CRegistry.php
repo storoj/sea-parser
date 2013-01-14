@@ -50,14 +50,14 @@ abstract class CRegistry
     public function get($var, $default = NULL)
     {
         if(isset($this->data[$var])) {
-            return $this->data[$var]['value'];
+            return $this->data[$var];
         }
         return $default;
     }
 
     public function set($var, $value)
     {
-        $this->data[$var]['value'] = $value;
+        $this->data[$var] = $value;
         return $this;
     }
 
@@ -85,7 +85,7 @@ abstract class CRegistry
     {
         $data = array();
         foreach($this->data as $param => $value) {
-            $data[$param] = $value['value'];
+            $data[$param] = $value;
         }
         return $data;
     }

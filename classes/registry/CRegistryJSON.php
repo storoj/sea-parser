@@ -19,7 +19,7 @@ class CRegistryJSON extends CRegistry
         parent::__construct();
     }
 
-    public function LoadData()
+    protected function LoadData()
     {
         var_dump($this->settingsFileName);
         if (file_exists($this->settingsFileName)) {
@@ -32,7 +32,7 @@ class CRegistryJSON extends CRegistry
         return array();
     }
 
-    public function SaveData($arData)
+    protected function SaveData($arData)
     {
         if (!is_array($arData) && !is_object($arData)) {
             $arData = array();

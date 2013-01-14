@@ -8,7 +8,7 @@
 
 class CRegistryDB extends CRegistry
 {
-    public function LoadData()
+    protected function LoadData()
     {
         $query = DBQuery::withTable('settings')
             ->table('settings')
@@ -16,7 +16,7 @@ class CRegistryDB extends CRegistry
         return $query->fetchAll('param');
     }
 
-    public function SaveData($arData)
+    protected function SaveData($arData)
     {
         $query = DBQuery::withTable('settings');
         foreach($arData as $param => $paramData){

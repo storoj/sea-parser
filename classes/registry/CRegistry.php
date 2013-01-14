@@ -1,12 +1,6 @@
 <?php
 
-interface IRegistry
-{
-    public function LoadData();
-    public function SaveData($arData);
-}
-
-abstract class CRegistry implements IRegistry
+abstract class CRegistry
 {
     /**
      * @var CRegistry
@@ -86,4 +80,8 @@ abstract class CRegistry implements IRegistry
     {
         return $this->data;
     }
+
+    protected abstract function LoadData();
+
+    protected abstract function SaveData($arData);
 }

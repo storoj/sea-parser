@@ -1,3 +1,77 @@
+function fillFormData(data, name, value){
+    if(-1 === name.indexOf('[')){
+        data[name] = value;
+        return data;
+    }
+    var currentName = name.substr(0, name.indexOf('['));
+    var nextName = name.substr(name.indexOf('[')+1);
+    nextName = nextName.substr(0, nextName.indexOf(']')) + nextName.substr(nextName.indexOf(']')+1);
+
+    var index = parseInt(currentName);
+    if(isNaN(index)){
+        index = currentName;
+    }
+    if(nextName == ''){
+        // add to array
+        if(typeof data[index] !== 'object'){
+            data[index] = {};
+        }
+        data[index][Object.keys(data[index]).length] = value;
+        return data;
+    }
+    data[index] = fillFormData(data[currentName] || {}, nextName, value);
+    return data;
+}
+
+function serializeForm(form) {
+    var request = {};
+    $(form).find('input').each(function(){
+        if (!$(this).attr('name')){
+            return;
+        }
+        var name = $(this).attr('name');
+        var type = $(this).attr('type');
+        var value = '';
+        // checkboxes
+        if (type == 'checkbox') {
+            value = $(this).attr('checked');
+            if (value) {
+                request = fillFormData(request, name, 1);
+            }
+            // radio
+        } else if (type == 'radio') {
+            if ($(this).attr('checked')) {
+                //request.data[name] = $(this).val();
+                request = fillFormData(request, name, $(this).val());
+            }
+            // other
+        } else {
+            value = $(this).val() !== undefined ? $(this).val() : '';
+            request = fillFormData(request, name, value);
+                /*
+                 if(name.substr(-2) == '[]'){
+                 name = name.substr(0, name.length - 2);
+                 if(false === request.data[name] instanceof Array){
+                 request.data[name] = new Array();
+                 }
+                 request.data[name].push(value);
+                 } else {
+                 request.data[name] = value;
+                 }*/
+        }
+    });
+    // textareas
+    $(form).find('textarea').each(function(){
+        request[$(this).attr('name')] = $(this).val();
+    });
+    // select
+    $(form).find('select').each(function(){
+        request[$(this).attr('name')] = $(this).find('option:selected').val();
+    });
+//    request.param.form_id = $(form).attr('id');
+    return request; //$('#'+form_id).serializeArray();
+}
+
 function callFunctionList(funcList, context, arguments){
     if (funcList instanceof Array) {
         for(var i=0; i<funcList.length; ++i){
@@ -14,20 +88,21 @@ function callFunctionList(funcList, context, arguments){
 }
 
 function setDebugInfo(type, info, url) {
-    if ($('#debug_content').length) {
+    var debugContentElement = $('#debug_content');
+    if (debugContentElement.length) {
         switch(type) {
             case 'error':
-                $('#debug_content').append('' +
+                debugContentElement.append('' +
                     '<p><span class="debug_def">[E]</span> '
                     + ' :: <span class="debug_table">'
                     + info + '</span></p>');
                 break;
             case 'info':
-                $('#debug_content').append('<p><span class="debug_url">'
+                debugContentElement.append('<p><span class="debug_url">'
                     + url + '</span> :: <span class="debug_table">'
                     + info.exec_time + '</span> msec</p>');
                 for (var i = 0; i < info.debug_info.length; i++) {
-                    $('#debug_content').append(info.debug_info[i]);
+                    debugContentElement.append(info.debug_info[i]);
                 }
                 break;
         }
@@ -43,31 +118,6 @@ function positionLoader(){
     var left = (wndWidth/2) - (elem.width()/2);
     elem.css({'position':'absolute','top':top,'left':left});
 }
-
-/*function refreshSelect(select) {
-    $(select)
-        .selectBox('destroy')
-        .selectBox()
-}*/
-
-/*function refreshChecks(checks, box, attr) {
-    if (typeof box === 'undefined') box = '.ez-checkbox';
-    if (typeof attr === 'undefined') attr = 'ez-checked';
-
-    if (typeof checks === 'string') {
-        checks = $(checks).find('input[type="checkbox"]');
-    }
-
-    $(checks).each(function(i, item){
-        console.log($(item).closest(box));
-        console.log($(item).attr('checked'));
-        if ($(item).attr('checked')) {
-            $(item).closest(box).addClass(attr);
-        } else {
-            $(item).closest(box).removeClass(attr);
-        }
-    });
-}*/
 
 function AjaxQuery(params, data, properties){
     var defaults = {
@@ -98,7 +148,7 @@ function AjaxQuery(params, data, properties){
         saved_state: {},
         properties: {},
 
-        execute: function(){
+        execute: function() {
             /* call actions on before data send (if there are some)  */
             callFunctionList(this.settings.callbacks.before, this, [this.data]);
 
@@ -123,7 +173,7 @@ function AjaxQuery(params, data, properties){
                 {
                     async: true,
                     context: this,
-                    data: {data: this.data},
+                    data: this.data,
                     dataType: this.settings.type,
                     type: this.settings.request_type,
 
@@ -178,12 +228,16 @@ function AjaxQuery(params, data, properties){
                     }
                 }
             );
+
+            return this;
         },
 
         autoexecute: function(){
             if (this.settings.autoexecute){
                 this.execute();
             }
+
+            return this;
         },
 
         rollback: function(param) {
@@ -198,6 +252,8 @@ function AjaxQuery(params, data, properties){
             if (this.settings.callbacks.rollback.length) {
                 callFunctionList(this.settings.callbacks.rollback);
             }
+
+            return this;
         },
 
         setOutputContent: function(response){
@@ -226,6 +282,8 @@ function AjaxQuery(params, data, properties){
                     alert('no pager block '+this.settings.pager);
                 }
             }
+
+            return this;
         },
 
         setKeyValue: function(keyValue, value){
@@ -251,6 +309,7 @@ function AjaxQuery(params, data, properties){
                 delete this.data[key];
                 this.setHashValues();
             }
+            return this;
         },
 
         set: function(key, value){
@@ -270,6 +329,13 @@ function AjaxQuery(params, data, properties){
             }
 
             if (execute) this.autoexecute();
+
+            return this;
+        },
+
+        setData: function(data) {
+            this.data = $.extend(this.data, data);
+            return this;
         },
 
         saveState: function() {
@@ -277,6 +343,7 @@ function AjaxQuery(params, data, properties){
             for(var key in this.data) {
                 this.saved_state[key] = this.data[key];
             }
+            return this;
         },
 
         addCallback: function(callback, eventType){
@@ -286,6 +353,7 @@ function AjaxQuery(params, data, properties){
                 }
                 this.settings.callbacks[eventType].push(callback);
             }
+            return this;
         },
 
         getHashValues: function() {
@@ -314,6 +382,7 @@ function AjaxQuery(params, data, properties){
                 hashString.push( key + '=' + this.data[key]);
             }
             document.location.hash = '#!'+ hashString.join('&');
+            return this;
         },
 
         setSwitchers: function(){
@@ -536,6 +605,19 @@ function checkReset(switcher, reset) {
     return false;
 }
 
+function bindFormToAjaxQuery(form, query)
+{
+    if (!(query instanceof AjaxQuery)) {
+        return false;
+    }
+    form = $(form);
+    form.submit(function(){
+        var formData = serializeForm(this);
+        query.setData(formData).execute();
+        return false;
+    });
+}
+
 $(document).ready(function(){
 
     $('body').on('click', '.submit', function(){
@@ -571,7 +653,7 @@ $(document).ready(function(){
                 var value = false;
                 switch(type) {
                     case 'checkbox':
-                        var list = new Array();
+                        var list = [];
                         parent.find('.switcher-value:checked').each(function(i, item){
                             list.push($(item).attr('value'));
                         });

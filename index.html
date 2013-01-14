@@ -9,6 +9,8 @@
 
     <!-- Le styles -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/alertbox.css" rel="stylesheet">
     <link href="/bootstrap/css/datepicker.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/js/jqplot/jquery.jqplot.min.css">
@@ -38,7 +40,7 @@
             <a class="brand" href="#">Парсер новостей</a>
             <div class="nav-collapse collapse">
                 <ul class="nav" id="navigationTabs">
-                    <li class="active"><a href="#stats" data-toggle="tab">Статистика</a></li>
+                    <li><a href="#stats" data-toggle="tab">Статистика</a></li>
                     <li><a href="#settings" data-toggle="tab">Фразы</a></li>
                     <li><a href="#contact" data-toggle="tab">Автор</a></li>
                 </ul>
@@ -50,7 +52,7 @@
 <div class="container">
 
     <div class="tab-content">
-        <div class="tab-pane active" id="stats">
+        <div class="tab-pane" id="stats">
             <form>
                 <fieldset>
                     <legend>Статистика по фразам</legend>
@@ -58,9 +60,10 @@
                     <div class="row">
                         <div class="span4">
                             <p class="lead">Фразы, отображаемые на графике</p>
-                            <label class="checkbox"><input type="checkbox"> morvesti.ru</label>
-                            <label class="checkbox"><input type="checkbox"> seanews.ru</label>
-                            <label class="checkbox"><input type="checkbox"> portnews.ru</label>
+                            <label class="checkbox"><input type="checkbox" name="phrases[morvesti.ru]"> <img src="http://morvesti.ru/favicon.ico"> Морские вести</label>
+                            <label class="checkbox"><input type="checkbox" name="phrases[seanews.ru]"> <img src="http://seanews.ru/favicon.ico"> SeaNews</label>
+                            <label class="checkbox"><input type="checkbox" name="phrases[portnews.ru]"> <img src="http://portnews.ru/favicon.ico"> ПортНьюс</label>
+                            <label class="checkbox"><input type="checkbox" name="phrases[infranews.ru]"> <img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</label>
 
                             <p class="lead">Тип поиска</p>
                             <label class="radio">
@@ -85,7 +88,7 @@
                     </div>
 
                     <div class="form-actions" style="text-align: center">
-                        <button type="submit" class="btn btn-large btn-primary">Построить график</button>
+                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> Построить график</button>
                     </div>
                 </fieldset>
             </form>
@@ -94,7 +97,26 @@
 
         </div>
         <div class="tab-pane" id="settings">
-            settings here
+            <form>
+                <ul class="nav nav-tabs" id="settingsTabs">
+                    <li><a href="#settings-morvesti" data-toggle="tab"><img src="http://morvesti.ru/favicon.ico"> Морские вести</a></li>
+                    <li><a href="#settings-seanews" data-toggle="tab"><img src="http://seanews.ru/favicon.ico"> SeaNews</a></li>
+                    <li><a href="#settings-portnews" data-toggle="tab"><img src="http://portnews.ru/favicon.ico"> ПортНьюс</a></li>
+                    <li><a href="#settings-infranews" data-toggle="tab"><img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane" id="settings-morvesti"><textarea name="keywords[morvesti.ru]"></textarea></div>
+                    <div class="tab-pane" id="settings-seanews"><textarea name="keywords[seanews.ru]"></textarea></div>
+                    <div class="tab-pane" id="settings-portnews"><textarea name="keywords[portnews.ru]"></textarea></div>
+                    <div class="tab-pane" id="settings-infranews"><textarea name="keywords[infranews.ru]"></textarea></div>
+                </div>
+
+                <div class="form-actions" style="text-align: center">
+                    <button type="submit" class="btn btn-primary"><i class="icon-white icon-ok"></i> Сохранить</button>
+                </div>
+            </form>
+
         </div>
         <div class="tab-pane" id="contact">
             <p class="lead">skype: dark.storoj</p>
@@ -124,6 +146,7 @@
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="/bootstrap/js/bootstrap-datepicker.js"></script>
 <script src="/bootstrap/js/bootstrap-datepicker.ru.js"></script>
+<script src="/js/alertbox.js"></script>
 <script src="/js/core2.js"></script>
 <script src="/js/main.js"></script>
 

@@ -1,0 +1,74 @@
+AddDefaultCharset UTF-8
+
+<IfModule mime_module>
+    <files *.js>
+        ForceType text/javascript
+    </files>
+
+    <files *.css>
+        ForceType text/css
+    </files>
+</IfModule>
+
+<ifModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 seconds"
+ExpiresByType text/html "access plus 1 seconds"
+ExpiresByType image/gif "access plus 2592000 seconds"
+ExpiresByType image/jpeg "access plus 2592000 seconds"
+ExpiresByType image/png "access plus 2592000 seconds"
+ExpiresByType text/css "access plus 1 seconds"
+ExpiresByType text/javascript "access plus 1 week"
+ExpiresByType application/javascript "access plus 1 week"
+ExpiresByType application/x-javascript "access plus 1 week"
+</ifModule>
+
+<IfModule mod_deflate.c>
+#SetOutputFilter DEFLATE
+
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/x-js text/css
+
+<IfModule mod_setenvif.c>
+# Netscape 4.x has some problems
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+# Netscape 4.06-4.08 have some more problems
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+# MSIE masquerades as Netscape, but it is fine
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+# NOTE: Due to a bug in mod_setenvif up to Apache 2.0.48, the above regex won’t work. You can use the following
+# workaround (comment the above line and uncomment the below line) to get the desired effect:
+# BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+
+# Don’t compress already-compressed files
+SetEnvIfNoCase Request_URI .(?:gif|jpe?g|png)$ no-gzip dont-vary
+SetEnvIfNoCase Request_URI .(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+SetEnvIfNoCase Request_URI .(?:avi|mov|mp3|mp4|rm|flv|swf|mp?g)$ no-gzip dont-vary
+SetEnvIfNoCase Request_URI .pdf$ no-gzip dont-vary
+</IfModule>
+
+<IfModule mod_headers.c>
+# Make sure proxies don’t deliver the wrong content
+Header append Vary User-Agent env=!dont-vary
+</IfModule>
+</IfModule>
+
+RewriteEngine On
+Options +FollowSymlinks
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+
+#RewriteCond %{HTTP_HOST} ^(www\.)?topcreator\.ru$
+#RewriteRule ^(.*)$ http://topcreator.org [L,R=301,NC]
+
+RewriteRule ^([^/]*)/?(.*)$ index.php?action=$1&query=$2 [L,QSA]
+
+php_value display_errors On
+
+
+#php_flag xdebug.remote_autostart On
+#php_flag xdebug.remote_enable On
+#php_flag xdebug.remote_connect_back On
+#php_value xdebug.idekey topcreator

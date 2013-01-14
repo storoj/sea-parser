@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Парсер новостей</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -96,26 +96,30 @@
             <div id="chart1" style="height: 500px"></div>
 
         </div>
-        <div class="tab-pane" id="settings">
-            <form>
-                <ul class="nav nav-tabs" id="settingsTabs">
-                    <li><a href="#settings-morvesti" data-toggle="tab"><img src="http://morvesti.ru/favicon.ico"> Морские вести</a></li>
-                    <li><a href="#settings-seanews" data-toggle="tab"><img src="http://seanews.ru/favicon.ico"> SeaNews</a></li>
-                    <li><a href="#settings-portnews" data-toggle="tab"><img src="http://portnews.ru/favicon.ico"> ПортНьюс</a></li>
-                    <li><a href="#settings-infranews" data-toggle="tab"><img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</a></li>
-                </ul>
+        <div class="tab-pane active" id="settings">
+            <div class="row">
+                <div class="span9">
+                    <form id="settings_form">
+                        <ul class="nav nav-tabs" id="settingsTabs">
+                        </ul>
 
-                <div class="tab-content">
-                    <div class="tab-pane" id="settings-morvesti"><textarea name="keywords[morvesti.ru]"></textarea></div>
-                    <div class="tab-pane" id="settings-seanews"><textarea name="keywords[seanews.ru]"></textarea></div>
-                    <div class="tab-pane" id="settings-portnews"><textarea name="keywords[portnews.ru]"></textarea></div>
-                    <div class="tab-pane" id="settings-infranews"><textarea name="keywords[infranews.ru]"></textarea></div>
+                        <div class="tab-content">
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-actions" style="text-align: center">
-                    <button type="submit" class="btn btn-primary"><i class="icon-white icon-ok"></i> Сохранить</button>
+                <div class="span3">
+                    <div class="well">
+                        <button class="btn btn-success" id="group_add">Добавить группу</button>
+                        <hr>
+                        <div class="group-info">
+                            <h5>Информация о группе</h5>
+                            <input id="group_name" type="text" value="current group name" class="input-medium">
+                            <button class="btn btn-danger" id="group_remove">Удалить группу</button>
+                        </div>
+                    </div>
+                    <button type="submit" form="settings_form" class="btn btn-primary"><i class="icon-white icon-ok"></i> Сохранить</button>
                 </div>
-            </form>
+            </div>
 
         </div>
         <div class="tab-pane" id="contact">

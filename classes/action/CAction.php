@@ -16,12 +16,10 @@ abstract class CAction
     public function __construct()
     {
         $this->postData = $_POST;
-        echo '2';
     }
 
     public function getQueryResult($query)
     {
-        echo '1';
         $this->executeQuery($query);
         return $this->result;
     }

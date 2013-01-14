@@ -44,7 +44,7 @@ abstract class CRegistry
      */
     public function Save()
     {
-        $this->SaveData($this->data);
+        return $this->SaveData($this->data);
     }
 
     public function get($var, $default = NULL)

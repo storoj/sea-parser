@@ -25,5 +25,6 @@ class CRegistryDB extends CRegistry
                 ->where(array('param' => $param))
                 ->Update();
         }
+        return true;
     }
 }

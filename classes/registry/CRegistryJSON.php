@@ -39,6 +39,6 @@ class CRegistryJSON extends CRegistry
         }
         $json = json_encode($arData);
         var_dump($json);
-        file_put_contents($this->settingsFileName, $json);
+        return file_put_contents($this->settingsFileName, $json);
     }
 }

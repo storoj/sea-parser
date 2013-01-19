@@ -24,6 +24,7 @@ var plotDataQuery = new AjaxQuery({
                 lineLabels.push(queryResult.query + ' <b>('+queryResult.total_found+')</b>');
             }
 
+            $('#chart1').empty();
             var plot1 = $.jqplot('chart1', lines, {
                 title:'Статистика запросов',
                 axes:{

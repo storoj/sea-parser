@@ -15,8 +15,23 @@ $cl->SetServer( 'localhost', 9313 );
 // Собственно поиск
 $cl->SetMatchMode( SPH_MATCH_EXTENDED  ); // ищем хотя бы 1 слово из поисковой фразы
 $cl->SetLimits(0, 120, 120, 0);
-//$cl->SetFilterRange('date', 1346520000 - 10, 1346520000 + 10);
-//$result = $cl->Query("санкт-петербург"); // поисковый запрос
+
+$dateStart = time() - 30*24*60*60;
+if (isset($_POST['date_start'])) {
+    $dateStartParsed = DateTime::createFromFormat('d.m.Y', $_POST['date_start']);
+    if ($dateStartParsed) {
+        $dateStart = $dateStartParsed->getTimestamp();
+    }
+}
+$dateEnd = time();
+if (isset($_POST['date_end'])) {
+    $dateEndParsed = DateTime::createFromFormat('d.m.Y', $_POST['date_end']);
+    if ($dateEndParsed) {
+        $dateEnd = $dateEndParsed->getTimestamp();
+    }
+}
+
+$cl->SetFilterRange('date', $dateStart, $dateEnd);
 
 $registry = CRegistryJSON::getInstance();
 $phraseGroups = $registry->get('phrases');

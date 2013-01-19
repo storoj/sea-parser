@@ -15,31 +15,6 @@ interface IParser
 
 abstract class CParser implements IParser
 {
-
-    function latestDateFromDB()
-    {
-        $sourceID = $this->sourceID();
-
-        $maxDate = DBQuery::withTable('news')
-            ->getFields('MAX(date)', true)
-            ->where(array('source_id' => $sourceID))
-            ->fetch();
-
-        return $maxDate['MAX(date)'];
-    }
-
-    function earliestDateFromDB()
-    {
-        $sourceID = $this->sourceID();
-
-        $minDate = DBQuery::withTable('news')
-            ->getFields('MIN(date)', true)
-            ->where(array('source_id' => $sourceID))
-            ->fetch();
-
-        return $minDate['MIN(date)'];
-    }
-
     function extractDataFromURL($url)
     {
         $html = Downloader::defaultDownloaderForURL($url)->download();
@@ -50,45 +25,65 @@ abstract class CParser implements IParser
         return $data;
     }
 
+    /**
+     * @param $page - number of page to parse
+     * @return bool - false if found data already stored in DB, otherwise true
+     */
     function processPage($page)
     {
-        $latestDate = $this->latestDateFromDB();
-        $earliestDate = $this->earliestDateFromDB();
+        $rowCount = DBQuery::withTable('news')
+            ->where(array('source_id' => $this->sourceID()))
+            ->count();
 
         $content = $this->getNewsListPageContents($page);
         $urlList = $this->extractURLListFromHTML($content);
         $urlCount = count($urlList);
         foreach ($urlList as $index => $articleURL) {
-//            echo $articleURL."\n";
             echo "[".$index."/".$urlCount."] ".$articleURL."\n";
             $data = $this->extractDataFromURL($articleURL);
             if (!$data) {
                 echo "error\n";
-                continue;
+                return false;
             }
 
             $data['source_id'] = $this->sourceID();
             $data['source_url'] = $articleURL;
 
             $existance = DBQuery::withTable('news')
-                ->getFields(array('id'))
+                ->getFields(array('id', 'active'))
                 ->where(array(
                     'source_id'     => $data['source_id'],
                     'internal_id'   => $data['internal_id']
                 ))
                 ->fetch();
             if (!!$existance) {
-                echo " exists\n";
+                // found actual info, have to stop parsing
+                // mark all non-active rows as active and exit
+                if ($existance['active'] == 1) {
+
+                    DBQuery::withTable('news')
+                        ->setFields(array(
+                            'active' => 1
+                        ))
+                        ->where(array(
+                            'active'    => 0,
+                            'source_id' => $this->sourceID()
+                        ))
+                        ->Update();
+
+                    return false;
+                }
                 continue;
             }
-//            if ($data['date'] >= $earliestDate && $data['date'] <= $latestDate) {
-//                echo "found actual info\n";
-//                break;
-//            }
 
+            if ($rowCount == 0) {
+                $data['active'] = 1;
+            }
             DBQuery::withTable('news')
                 ->setFields($data)
                 ->Insert();
         }
+
+        return true;
     }
 }

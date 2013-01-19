@@ -5,7 +5,6 @@
  * Date: 07.12.12
  * Time: 3:31
  */
-// TODO internal id parsing
 
 class CParserSeanews extends CParser {
 
@@ -93,6 +92,8 @@ class CParserSeanews extends CParser {
     {
         $url = $this->webSiteBaseURL().'/news/Default.asp?kw=&geo=&pg='.$page;
 
-        return Downloader::defaultDownloaderForURL($url)->download();
+        $downloader = Downloader::defaultDownloaderForURL($url);
+        $downloader->useCache = false;
+        return $downloader->download();
     }
 }

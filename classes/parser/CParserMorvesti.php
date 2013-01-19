@@ -87,6 +87,9 @@ class CParserMorvesti extends CParser {
     {
         $url = $this->webSiteBaseURL().'/news/index.php?PAGEN_1='.$page;
 
-        return Downloader::defaultDownloaderForURL($url)->download();
+        $downloader = Downloader::defaultDownloaderForURL($url);
+        $downloader->useCache = false;
+        return $downloader->download();
+
     }
 }

@@ -87,6 +87,8 @@ class CParserInfranews extends CParser {
     {
         $url = $this->webSiteBaseURL().'/page/'.$page.'/';
 
-        return Downloader::defaultDownloaderForURL($url)->download();
+        $downloader = Downloader::defaultDownloaderForURL($url);
+        $downloader->useCache = false;
+        return $downloader->download();
     }
 }

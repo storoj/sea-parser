@@ -55,7 +55,7 @@ class Downloader {
     {
         echo "downloading...";
         $returnTransfer = isset($this->options[CURLOPT_RETURNTRANSFER]) && $this->options[CURLOPT_RETURNTRANSFER];
-        if ($returnTransfer) {
+        if ($returnTransfer && $this->useCache) {
             $cacheFileName = $this->getCacheFileNameForURL($this->url);
             if (file_exists($cacheFileName)) {
                 echo " found in cache\n";
@@ -73,7 +73,7 @@ class Downloader {
 
         echo " done\n";
 
-        if ($returnTransfer) {
+        if ($returnTransfer && $this->useCache) {
             @mkdir(dirname($cacheFileName), 0777, true);
             file_put_contents($cacheFileName, $result);
         }

@@ -12,8 +12,19 @@ var plotDataQuery = new AjaxQuery({
         success:function(status, queryResults){
             var lines = [];
             var lineLabels = [];
-            for(var i=0; i<queryResults.length; i++) {
-                var queryResult = queryResults[i];
+
+            var sortedQueryResult = queryResults.sort(function(a, b){
+                if (a.total_found < b.total_found) {
+                    return 1;
+                }
+                if (a.total_found > b.total_found) {
+                    return -1;
+                }
+                return 0;
+            });
+
+            for(var i=0; i<sortedQueryResult.length; i++) {
+                var queryResult = sortedQueryResult[i];
                 var documentsData = queryResult.documents;
                 var linePoints = [];
                 for (var j=0; j<documentsData.length; j++) {

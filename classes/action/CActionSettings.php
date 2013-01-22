@@ -79,4 +79,17 @@ class CActionSettings extends CAction
         $this->setStatus('ok', 'Данные сохранены');
         return $groupsData;
     }
+    
+    public function action_phrases_groups()
+    {
+        $phrasesGroups = array();
+        $phrasesGroupsInfo = $this->registryJSON->get('phrases');
+        foreach ($phrasesGroupsInfo as $index => $phrasesGroupInfo) {
+            $phrasesGroups[] = array(
+                'id'    => $index,
+                'name'  => $phrasesGroupInfo['name']
+            );
+        }
+        return $phrasesGroups;
+    }
 }

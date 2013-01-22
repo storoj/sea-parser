@@ -17,9 +17,11 @@ abstract class CParser implements IParser
 {
     function extractDataFromURL($url)
     {
-        $html = Downloader::defaultDownloaderForURL($url)->download();
+        $downloader = Downloader::defaultDownloaderForURL($url);
+        $html = $downloader->download();
         $data = $this->extractDataFromHTML($html);
         if (!isset($data['content']) || empty($data['content'])) {
+            $downloader->removeCacheFile();
             return false;
         }
         return $data;

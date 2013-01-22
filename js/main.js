@@ -94,4 +94,19 @@ $(function(){
         $('#settings-'+activeTabID).remove();
         activateFirstGroupTab();
     });
+    
+    var phrasesGroupsQuery = new AjaxQuery({
+        url: '/settings/phrases/groups',
+        callbacks: {
+            success: function(status, response){
+
+            }
+        }
+    });
+    ajaxHandler.addQuery(phrasesGroupsQuery, 'phrasesGroups');
+    
+    $('#phrasesGroupsRefreshButton').click(function(){
+        ajaxHandler.getQuery('phrasesGroups').execute();
+        return false;
+    });
 });

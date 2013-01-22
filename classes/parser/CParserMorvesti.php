@@ -68,6 +68,9 @@ class CParserMorvesti extends CParser {
         $document = phpQuery::newDocumentHTML($html);
         $postItems = $document->find('.newsContainer h4 a');
 
+        if ($postItems->length == 0) {
+            return false;
+        }
         $result = array();
         foreach ($postItems as $postItemLink) {
             $postItemLink = pq($postItemLink);

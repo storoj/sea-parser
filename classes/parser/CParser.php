@@ -39,6 +39,11 @@ abstract class CParser implements IParser
 
         $content = $this->getNewsListPageContents($page);
         $urlList = $this->extractURLListFromHTML($content);
+
+        if (!$urlList) {
+            return false;
+        }
+
         $urlCount = count($urlList);
         foreach ($urlList as $index => $articleURL) {
             echo "[".$index."/".$urlCount."] ".$articleURL."\n";

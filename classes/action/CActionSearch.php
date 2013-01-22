@@ -36,12 +36,24 @@ class CActionSearch extends CAction
         $cl->SetFilterRange('date', $dateStart, $dateEnd);
 
         $registry = CRegistryJSON::getInstance();
-        $phraseGroups = $registry->get('phrases');
+        $phrasesGroups = $registry->get('phrases');
+
+        if (isset($this->postData['phrasesGroups'])) {
+            $initialGroups = $phrasesGroups;
+            $phrasesGroups = array();
+
+            foreach($this->postData['phrasesGroups'] as $groupID) {
+                if (isset($initialGroups[$groupID])) {
+                    $phrasesGroups[] = $initialGroups[$groupID];
+                }
+            }
+        }
 
         $getDocuments = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
 
+
         $queries = array();
-        foreach ($phraseGroups as $phraseGroup) {
+        foreach ($phrasesGroups as $phraseGroup) {
             $queryPhrases = array();
             foreach ($phraseGroup['phrases'] as $phrase) {
                 $queryPhrases[] = '"'.$phrase.'"';
@@ -82,7 +94,7 @@ class CActionSearch extends CAction
                 ->fetchAll();
 
             $results[] = array(
-                'query'         => $phraseGroups[$index]['name'],
+                'query'         => $phrasesGroups[$index]['name'],
                 'documents'     => $dbDocuments,
                 'total_found'   => $res['total_found']
             );

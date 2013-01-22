@@ -34,9 +34,10 @@ function serializeForm(form) {
         var value = '';
         // checkboxes
         if (type == 'checkbox') {
-            value = $(this).attr('checked');
-            if (value) {
-                request = fillFormData(request, name, 1);
+            var checked = $(this).attr('checked');
+            if (checked) {
+                value = $(this).val();
+                request = fillFormData(request, name, value);
             }
             // radio
         } else if (type == 'radio') {

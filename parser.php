@@ -11,13 +11,19 @@ define('USE_DEBUG', 1);
 
 include(dirname(__FILE__).'/init.php');
 
-//$parserClass = 'CParserInfranews';
-//$parserClass = 'CParserSeanews';
-$parserClass = 'CParserMorvesti';
+$parserClasses = array(
+    'CParserMorvesti',
+    'CParserInfranews',
+    'CParserPortnews',
+    'CParserSeanews'
+);
 
-$parser = CParserFactory::makeFromClassName($parserClass);
-for ($page=3; $page<10; $page++) {
-    echo "processing page #".$page."\n";
-    $parser->processPage($page);
+foreach ($parserClasses as $parserClass) {
+    echo "starting ".$parserClass."\n";
+
+    $parser = CParserFactory::makeFromClassName($parserClass);
+    for ($page=1; $parser->processPage($page); $page++) {
+        echo "processing page #".$page."\n";
+    }
 }
-//echo Debugger::instance()->plainTextOutput();
+

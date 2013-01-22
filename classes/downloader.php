@@ -8,6 +8,7 @@
 
 class Downloader {
     private $url = '';
+    private $content = null;
     private $options = array(
         CURLOPT_RETURNTRANSFER  => true,
         CURLOPT_FOLLOWLOCATION  => true,
@@ -51,6 +52,14 @@ class Downloader {
         return $cacheFileName;
     }
 
+    public function removeCacheFile()
+    {
+        $cacheFileName = $this->getCacheFileNameForURL($this->url);
+        if (file_exists($cacheFileName)) {
+            unlink($cacheFileName);
+        }
+    }
+
     public function download()
     {
         echo "downloading...";
@@ -78,6 +87,7 @@ class Downloader {
             file_put_contents($cacheFileName, $result);
         }
 
+        $this->content = $result;
         return $result;
     }
 

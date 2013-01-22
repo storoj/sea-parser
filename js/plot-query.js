@@ -6,14 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
 var plotDataQuery = new AjaxQuery({
-    url:"/ajax.php",
+    url:"/search",
     request_type:"POST",
     callbacks:{
         success:function(status, queryResults){
             var lines = [];
             var lineLabels = [];
 
-            var sortedQueryResult = queryResults.sort(function(a, b){
+            var results = queryResults.result;
+            var sortedQueryResult = results.sort(function(a, b){
                 if (a.total_found < b.total_found) {
                     return 1;
                 }

@@ -49,8 +49,11 @@ class CActionSearch extends CAction
             }
         }
 
-        $getDocuments = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
+        if (isset($this->postData['source_id'])) {
+            $cl->SetFilter('source_id', $this->postData['source_id']);
+        }
 
+        $getDocuments = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
 
         $queries = array();
         foreach ($phrasesGroups as $phraseGroup) {

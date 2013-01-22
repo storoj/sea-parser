@@ -40,7 +40,7 @@
             <a class="brand" href="#">Парсер новостей</a>
             <div class="nav-collapse collapse">
                 <ul class="nav" id="navigationTabs">
-                    <li><a href="#stats" data-toggle="tab">Статистика</a></li>
+                    <li class="active"><a href="#stats" data-toggle="tab">Статистика</a></li>
                     <li><a href="#settings" data-toggle="tab">Фразы</a></li>
                     <li><a href="#contact" data-toggle="tab">Автор</a></li>
                 </ul>
@@ -60,10 +60,10 @@
                     <div class="row">
                         <div class="span3">
                             <p class="lead">Сайты</p>
-                            <label class="checkbox"><input type="checkbox" name="phrases[morvesti.ru]" checked> <img src="http://morvesti.ru/favicon.ico"> Морские вести</label>
-                            <label class="checkbox"><input type="checkbox" name="phrases[seanews.ru]" checked> <img src="http://seanews.ru/favicon.ico"> SeaNews</label>
-                            <label class="checkbox"><input type="checkbox" name="phrases[portnews.ru]" checked> <img src="http://portnews.ru/favicon.ico"> ПортНьюс</label>
-                            <label class="checkbox"><input type="checkbox" name="phrases[infranews.ru]" checked> <img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</label>
+                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="3" checked> <img src="http://morvesti.ru/favicon.ico"> Морские вести</label>
+                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="2" checked> <img src="http://seanews.ru/favicon.ico"> SeaNews</label>
+                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="4" checked> <img src="http://portnews.ru/favicon.ico"> ПортНьюс</label>
+                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="1" checked> <img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</label>
 
                             <p class="lead">Тип поиска</p>
                             <label class="radio">
@@ -92,7 +92,8 @@
                     </div>
 
                     <div class="form-actions" style="text-align: center">
-                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> Построить график</button>
+                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> График</button>
+                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-list-alt icon-white"></i> Таблица</button>
                     </div>
                 </fieldset>
             </form>

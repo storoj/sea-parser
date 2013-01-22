@@ -534,7 +534,7 @@ function AjaxHandler(){
 
             for(var i in this.queries){
                 if(this.queries[i].settings.autoexecute){
-                    result.addQuery(this.queries[i]);
+                    result.addQuery(this.queries[i], 'query-'+i);
                 }
             }
 

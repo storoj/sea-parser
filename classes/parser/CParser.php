@@ -46,7 +46,7 @@ abstract class CParser implements IParser
 
         $urlCount = count($urlList);
         foreach ($urlList as $index => $articleURL) {
-            echo "[".$index."/".$urlCount."] ".$articleURL."\n";
+            echo "[".($index+1)."/".$urlCount."] ".$articleURL."\n";
             $data = $this->extractDataFromURL($articleURL);
             if (!$data) {
                 echo "error\n";

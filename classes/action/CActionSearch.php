@@ -53,7 +53,7 @@ class CActionSearch extends CAction
             $cl->SetFilter('source_id', $this->postData['source_id']);
         }
 
-        $getDocuments = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
+        $verbose = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
 
         $queries = array();
         foreach ($phrasesGroups as $phraseGroup) {
@@ -90,17 +90,20 @@ class CActionSearch extends CAction
 
             $ids = array_keys($res['matches']);
 
-            $dbDocuments = DBQuery::withTable('news')
-                ->getFields(array('date', 'source_url'))
-                ->where(array('_id' => $ids))
-                ->order('date')
-                ->fetchAll();
-
-            $results[] = array(
+            $resultItem = array(
                 'query'         => $phrasesGroups[$index]['name'],
-                'documents'     => $dbDocuments,
                 'total_found'   => $res['total_found']
             );
+
+            if ($verbose) {
+                $resultItem['documents'] = DBQuery::withTable('news')
+                    ->getFields(array('date', 'source_url'))
+                    ->where(array('_id' => $ids))
+                    ->order('date')
+                    ->fetchAll();
+            }
+
+            $results[] = $resultItem;
         }
 
         return $results;

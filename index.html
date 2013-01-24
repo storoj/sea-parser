@@ -55,7 +55,7 @@
         <div class="span12">
             <div class="tab-content">
                 <div class="tab-pane active" id="stats">
-                    <form>
+                    <form id="resultsForm">
                         <fieldset>
                             <legend>Статистика по фразам</legend>
 
@@ -93,9 +93,11 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" name="verbose" value="">
+
                             <div class="form-actions" style="text-align: center">
-                                <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> График</button>
-                                <button type="submit" class="btn btn-large btn-primary"><i class="icon-list-alt icon-white"></i> Таблица</button>
+                                <button class="btn btn-large btn-primary" onclick="requestPlot();"><i class="icon-signal icon-white"></i> График</button>
+                                <button class="btn btn-large btn-primary" onclick="requestTable();"><i class="icon-list-alt icon-white"></i> Таблица</button>
                             </div>
                         </fieldset>
                     </form>
@@ -116,9 +118,9 @@
 
                         </div>
                     </div>
-                    <div class="row" id="chartContainer">
+                    <div class="row" id="plotContainer">
                         <div class="span12">
-                            <div id="chart1" style="height: 500px; width: 98%"></div>
+                            <div id="plotArea" style="height: 500px; width: 98%"></div>
                         </div>
                     </div>
 

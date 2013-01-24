@@ -6,6 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
+function clearAndHideOutputs()
+{
+    $('.output-area').hide();
+    $('#plotArea').empty();
+}
+
 function displayPlot(plotData)
 {
     var lines = [];
@@ -24,9 +30,8 @@ function displayPlot(plotData)
         lineLabels.push(queryResult.query + ' <b>('+queryResult.total_found+')</b>');
     }
 
-    $('#resultsTableContainer').hide();
+    clearAndHideOutputs();
     $('#plotContainer').show();
-    $('#plotArea').empty();
 
     $.jqplot('plotArea', lines, {
         title:'Статистика запросов',
@@ -65,11 +70,47 @@ function displayTable(tableData)
         var queryResult = tableData[i];
         tableContents += '<tr><td>'+queryResult.query+'</td><td>'+queryResult.total_found+'</td></tr>';
     }
-    $('#resultsTableContainer').show();
-    $('#plotContainer').hide();
-    $('#plotArea').empty();
-
+    clearAndHideOutputs();
     $('#resultsTable').html(tableContents);
+    $('#resultsTableContainer').show();
+}
+
+function displayText(plotData)
+{
+    var documentsHTML = '';
+
+    for(var i=0; i<plotData.length; i++) {
+        var queryResult = plotData[i];
+
+        var documentsData = queryResult.documents;
+        documentsHTML += '<h1>'+queryResult.query+' ('+queryResult.total_found+')</h1>';
+
+        for (var j=0; j<documentsData.length; j++) {
+            var documentData = documentsData[j];
+            var sourceIcon = '';
+            switch (parseInt(documentData.source_id)) {
+                case 1:
+                    sourceIcon = 'http://infranews.ru/wp-content/uploads/2012/08/favicon.ico';
+                    break;
+                case 2:
+                    sourceIcon = 'http://seanews.ru/favicon.ico';
+                    break;
+                case 3:
+                    sourceIcon = 'http://morvesti.ru/favicon.ico';
+                    break;
+                case 4:
+                    sourceIcon = 'http://portnews.ru/favicon.ico';
+                    break;
+            }
+            if (sourceIcon.length > 0) {
+                sourceIcon = '<img src="'+sourceIcon+'">';
+            }
+            documentsHTML += '<h3><a href="'+documentData.source_url+'">'+sourceIcon+' '+documentData.title + '</a></h3><p>'+documentData.content+'</p>';
+        }
+    }
+    clearAndHideOutputs();
+    $('#textArea').html(documentsHTML);
+    $('#textContainer').show();
 }
 
 var plotDataQuery = new AjaxQuery({
@@ -90,12 +131,18 @@ var plotDataQuery = new AjaxQuery({
             });
 
             // TODO return verbosity flag
-            var isPlotResults = $('input[name=verbose]').val() == '1';
+            var verbosity = parseInt($('input[name=verbose]').val());
 
-            if (isPlotResults) {
-                displayPlot(sortedQueryResult);
-            } else {
-                displayTable(sortedQueryResult);
+            switch (verbosity) {
+                case 0:
+                    displayTable(sortedQueryResult);
+                    break;
+                case 1:
+                    displayPlot(sortedQueryResult);
+                    break;
+                case 2:
+                    displayText(sortedQueryResult);
+                    break;
             }
         }
     }
@@ -112,5 +159,11 @@ function requestPlot()
 function requestTable()
 {
     $('input[name=verbose]').val('0');
+    $('#resultsForm').submit();
+}
+
+function requestText()
+{
+    $('input[name=verbose]').val('2');
     $('#resultsForm').submit();
 }

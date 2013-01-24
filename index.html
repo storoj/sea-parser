@@ -98,11 +98,12 @@
                             <div class="form-actions" style="text-align: center">
                                 <button class="btn btn-large btn-primary" onclick="requestPlot();"><i class="icon-signal icon-white"></i> График</button>
                                 <button class="btn btn-large btn-primary" onclick="requestTable();"><i class="icon-list-alt icon-white"></i> Таблица</button>
+                                <button class="btn btn-large btn-primary" onclick="requestText();"><i class="icon-file icon-white"></i> Тексты</button>
                             </div>
                         </fieldset>
                     </form>
 
-                    <div class="row" id="resultsTableContainer">
+                    <div class="row output-area" id="resultsTableContainer">
                         <div class="span5">
                             <p class="lead">Результат</p>
                             <table class="table table-bordered">
@@ -118,9 +119,14 @@
 
                         </div>
                     </div>
-                    <div class="row" id="plotContainer">
+                    <div class="row output-area" id="plotContainer">
                         <div class="span12">
                             <div id="plotArea" style="height: 500px; width: 98%"></div>
+                        </div>
+                    </div>
+                    <div class="row output-area" id="textContainer">
+                        <div class="span12">
+                            <div id="textArea"></div>
                         </div>
                     </div>
 

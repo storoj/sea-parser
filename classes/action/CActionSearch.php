@@ -6,6 +6,10 @@
  * Time: 0:54
  */
 
+define('SEARCH_VERBOSE_NONE', 0);
+define('SEARCH_VERBOSE_DATE', 1);
+define('SEARCH_VERBOSE_FULL', 2);
+
 class CActionSearch extends CAction
 {
     public function action_index()
@@ -14,7 +18,7 @@ class CActionSearch extends CAction
         $cl->SetServer( 'localhost', 9313 );
 
         // Собственно поиск
-        $cl->SetMatchMode( SPH_MATCH_EXTENDED  ); // ищем хотя бы 1 слово из поисковой фразы
+        $cl->SetMatchMode(SPH_MATCH_EXTENDED);
         $cl->SetLimits(0, 120, 120, 0);
 
         $dateStart = time() - 30*24*60*60;
@@ -53,7 +57,13 @@ class CActionSearch extends CAction
             $cl->SetFilter('source_id', $this->postData['source_id']);
         }
 
-        $verbose = isset($this->postData['verbose']) ? !!$this->postData['verbose'] : false;
+        $searchIndex = isset($this->postData['search_type']) && $this->postData['search_type'] == 'exact'
+            ? 'newsIndexExact'
+            : 'newsIndex';
+
+        $verbose = isset($this->postData['verbose'])
+            ? $this->postData['verbose']
+            : SEARCH_VERBOSE_NONE;
 
         $queries = array();
         foreach ($phrasesGroups as $phraseGroup) {
@@ -65,7 +75,7 @@ class CActionSearch extends CAction
         }
 
         foreach($queries as $query) {
-            $cl->AddQuery($query);
+            $cl->AddQuery($query, $searchIndex);
         }
 
         $dbResult = $cl->RunQueries();
@@ -96,8 +106,14 @@ class CActionSearch extends CAction
             );
 
             if ($verbose) {
+                $fields = array('date');
+                if ($verbose == SEARCH_VERBOSE_FULL) {
+                    $fields = array_merge($fields, array(
+                        'title', 'content', 'source_url', 'source_id'
+                    ));
+                }
                 $resultItem['documents'] = DBQuery::withTable('news')
-                    ->getFields(array('date', 'source_url'))
+                    ->getFields($fields)
                     ->where(array('_id' => $ids))
                     ->order('date')
                     ->fetchAll();

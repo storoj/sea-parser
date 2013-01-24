@@ -49,6 +49,7 @@ var settingsSaveQuery = new AjaxQuery({
     callbacks: {
         success: function(status, response) {
             alertbox(response.message, status);
+            ajaxHandler.getQuery('phrasesGroups').execute();
         }
     }
 }, {});

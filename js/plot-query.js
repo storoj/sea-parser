@@ -105,7 +105,7 @@ function displayText(plotData)
             if (sourceIcon.length > 0) {
                 sourceIcon = '<img src="'+sourceIcon+'">';
             }
-            documentsHTML += '<h3><a href="'+documentData.source_url+'">'+sourceIcon+' '+documentData.title + '</a></h3><p>'+documentData.content+'</p>';
+            documentsHTML += '<h3><a target="_blank" href="'+documentData.source_url+'">'+sourceIcon+' '+documentData.title + '</a></h3><p>'+documentData.content+'</p>';
         }
     }
     clearAndHideOutputs();

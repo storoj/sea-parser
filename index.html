@@ -51,86 +51,121 @@
 
 <div class="container">
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="stats">
-            <form>
-                <fieldset>
-                    <legend>Статистика по фразам</legend>
+    <div class="row">
+        <div class="span12">
+            <div class="tab-content">
+                <div class="tab-pane active" id="stats">
+                    <form>
+                        <fieldset>
+                            <legend>Статистика по фразам</legend>
 
-                    <div class="row">
-                        <div class="span3">
-                            <p class="lead">Сайты</p>
-                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="3" checked> <img src="http://morvesti.ru/favicon.ico"> Морские вести</label>
-                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="2" checked> <img src="http://seanews.ru/favicon.ico"> SeaNews</label>
-                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="4" checked> <img src="http://portnews.ru/favicon.ico"> ПортНьюс</label>
-                            <label class="checkbox"><input type="checkbox" name="source_id[]" value="1" checked> <img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</label>
+                            <div class="row">
+                                <div class="span3">
+                                    <p class="lead">Сайты</p>
+                                    <label class="checkbox"><input type="checkbox" name="source_id[]" value="3" checked> <img src="http://morvesti.ru/favicon.ico"> Морские вести</label>
+                                    <label class="checkbox"><input type="checkbox" name="source_id[]" value="2" checked> <img src="http://seanews.ru/favicon.ico"> SeaNews</label>
+                                    <label class="checkbox"><input type="checkbox" name="source_id[]" value="4" checked> <img src="http://portnews.ru/favicon.ico"> ПортНьюс</label>
+                                    <label class="checkbox"><input type="checkbox" name="source_id[]" value="1" checked> <img src="http://infranews.ru/wp-content/uploads/2012/08/favicon.ico"> Infranews</label>
 
-                            <p class="lead">Тип поиска</p>
-                            <label class="radio">
-                                <input type="radio" name="search_type" value="morph" checked>
-                                морфологический поиск
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="search_type" value="exact">
-                                точное совпадение
-                            </label>
-                        </div>
-                        <div class="span3">
-                            <p class="lead">Группы фраз <button class="btn btn-primary btn-small" id="phrasesGroupsRefreshButton"><i class="icon-repeat icon-white"></i></button></p>
-                            <div id="phraseGroupsList"></div>
-                        </div>
-                        <div class="span3" style="height:300px;">
-                            <label>Начальная дата</label>
-                            <input type="text" class="datepicker" data-inline="#datepicker1" data-date-weekstart="1" data-date-format="dd.mm.yyyy" name="date_start">
-                            <div id="datepicker1"></div>
-                        </div>
-                        <div class="span3" style="height:300px;">
-                            <label>Конечная дата</label>
-                            <input type="text" class="datepicker" data-inline="#datepicker2" data-date-weekstart="1" data-date-format="dd.mm.yyyy" name="date_end">
-                            <div id="datepicker2"></div>
-                        </div>
-                    </div>
+                                    <p class="lead">Тип поиска</p>
+                                    <label class="radio">
+                                        <input type="radio" name="search_type" value="morph" checked>
+                                        морфологический поиск
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="search_type" value="exact">
+                                        точное совпадение
+                                    </label>
+                                </div>
+                                <div class="span3">
+                                    <p class="lead">Группы фраз <button class="btn btn-primary btn-small" id="phrasesGroupsRefreshButton"><i class="icon-repeat icon-white"></i></button></p>
+                                    <div id="phraseGroupsList"></div>
+                                </div>
+                                <div class="span3" style="height:300px;">
+                                    <label>Начальная дата</label>
+                                    <input type="text" class="datepicker" data-inline="#datepicker1" data-date-weekstart="1" data-date-format="dd.mm.yyyy" name="date_start">
+                                    <div id="datepicker1"></div>
+                                </div>
+                                <div class="span3" style="height:300px;">
+                                    <label>Конечная дата</label>
+                                    <input type="text" class="datepicker" data-inline="#datepicker2" data-date-weekstart="1" data-date-format="dd.mm.yyyy" name="date_end">
+                                    <div id="datepicker2"></div>
+                                </div>
+                            </div>
 
-                    <div class="form-actions" style="text-align: center">
-                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> График</button>
-                        <button type="submit" class="btn btn-large btn-primary"><i class="icon-list-alt icon-white"></i> Таблица</button>
-                    </div>
-                </fieldset>
-            </form>
-
-            <div id="chart1" style="height: 500px; width: 98%"></div>
-
-        </div>
-        <div class="tab-pane" id="settings">
-            <div class="row">
-                <div class="span9">
-                    <form id="settings_form">
-                        <ul class="nav nav-tabs" id="settingsTabs">
-                        </ul>
-
-                        <div class="tab-content">
-                        </div>
+                            <div class="form-actions" style="text-align: center">
+                                <button type="submit" class="btn btn-large btn-primary"><i class="icon-signal icon-white"></i> График</button>
+                                <button type="submit" class="btn btn-large btn-primary"><i class="icon-list-alt icon-white"></i> Таблица</button>
+                            </div>
+                        </fieldset>
                     </form>
-                </div>
-                <div class="span3">
-                    <div class="well">
-                        <button class="btn btn-success" id="group_add">Добавить группу</button>
-                        <hr>
-                        <div class="group-info">
-                            <h5>Информация о группе</h5>
-                            <input id="group_name" type="text" value="current group name" class="input-medium">
-                            <button class="btn btn-danger" id="group_remove">Удалить группу</button>
+
+                    <div class="row" id="resultsTableContainer">
+                        <div class="span5">
+                            <p class="lead">Результат</p>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Группа фраз</th>
+                                    <th>Количество совпадений</th>
+                                </tr>
+                                </thead>
+                                <tbody id="resultsTable">
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
-                    <button type="submit" form="settings_form" class="btn btn-primary"><i class="icon-white icon-ok"></i> Сохранить</button>
+                    <div class="row" id="chartContainer">
+                        <div class="span12">
+                            <div id="chart1" style="height: 500px; width: 98%"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="settings">
+                    <div class="row">
+                        <div class="span9">
+                            <form id="settings_form">
+                                <ul class="nav nav-tabs" id="settingsTabs">
+                                </ul>
+
+                                <div class="tab-content">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="span3">
+                            <div class="well">
+                                <button class="btn btn-success" id="group_add">Добавить группу</button>
+                                <hr>
+                                <div class="group-info">
+                                    <h5>Информация о группе</h5>
+                                    <input id="group_name" type="text" value="current group name" class="input-medium">
+                                    <button class="btn btn-danger" id="group_remove">Удалить группу</button>
+                                </div>
+                            </div>
+                            <button type="submit" form="settings_form" class="btn btn-primary"><i class="icon-white icon-ok"></i> Сохранить</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="contact">
+                    <div class="media">
+                        <div class="pull-left">
+                            <img class="img-polaroid" src="/img/author_photo.jpeg">
+                        </div>
+                        <div class="media-body">
+                            <p class="lead">Алексей Сторожев</p>
+                            <p><i class="icon-bell"></i> телефон: <a href="skype:+79219727151?call">+7 921 9727 151</a></p>
+                            <p><i class="icon-comment"></i> skype: <a href="skype:dark.storoj?chat">dark.storoj</a></p>
+                            <p><i class="icon-envelope"></i> e-mail: <a href="mailto:dark.storoj@gmail.com">dark.storoj@gmail.com</a></p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+        </div>
 
-        </div>
-        <div class="tab-pane" id="contact">
-            <p class="lead">skype: dark.storoj</p>
-            <p class="lead">mail: dark.storoj@gmail.com</p>
-        </div>
     </div>
 
 </div> <!-- /container -->

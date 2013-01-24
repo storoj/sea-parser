@@ -3,3 +3,13 @@
     width: 90%;
     height: 400px;
 }
+
+#resultsTableContainer
+{
+    display: none;
+}
+
+#chartContainer
+{
+    display: none;
+}
